@@ -1,11 +1,21 @@
 #!/usr/bin/env python3
-import numpy as np
+"""Module for multiplying two matrices."""
 
-matrix = np.array([[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12],
-                   [13, 14, 15, 16, 17, 18], [19, 20, 21, 22, 23, 24]])
-mat1 = matrix[1:3]
-mat2 = matrix[:, 2:4]
-mat3 = matrix[1:, 3:]
-print("The middle two rows of the matrix are:\n{}".format(mat1))
-print("The middle two columns of the matrix are:\n{}".format(mat2))
-print("The bottom-right, square, 3x3 matrix is:\n{}".format(mat3))
+
+def mat_mul(mat1, mat2):
+    """Multiplies two matrices."""
+    if not mat1 or not mat2:
+        return None
+
+    if len(mat1[0]) != len(mat2):
+        return None
+
+    result = []
+
+    for row in mat1:
+        new_row = []
+        for col in zip(*mat2):
+            new_row.append(sum(a * b for a, b in zip(row, col)))
+        result.append(new_row)
+
+    return result
