@@ -28,3 +28,4 @@ def convolve_grayscale_same(images, kernel):
             )
 
     return output
+    
