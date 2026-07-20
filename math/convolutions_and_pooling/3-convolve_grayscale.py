@@ -1,28 +1,34 @@
 #!/usr/bin/env python3
-"""Performs a strided convolution on grayscale images."""
+"""Performs a convolution on grayscale images."""
 
 import numpy as np
 
 
 def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
-    """Performs a strided convolution on grayscale images."""
+    """Performs a convolution on grayscale images."""
     m, h, w = images.shape
     kh, kw = kernel.shape
     sh, sw = stride
 
     if padding == 'same':
-        ph = max((h - 1) * sh + kh - h, 0)
-        pw = max((w - 1) * sw + kw - w, 0)
-        ph_top = ph // 2
-        ph_bottom = ph - ph_top
-        pw_left = pw // 2
-        pw_right = pw - pw_left
+        ph = ((h - 1) * sh + kh - h) // 2
+        pw = ((w - 1) * sw + kw - w) // 2
+        ph_top = ph
+        ph_bottom = ph
+        pw_left = pw
+        pw_right = pw
+
     elif padding == 'valid':
-        ph_top = ph_bottom = pw_left = pw_right = 0
+        ph_top = 0
+        ph_bottom = 0
+        pw_left = 0
+        pw_right = 0
+
     else:
-        ph_top, pw_left = padding
-        ph_bottom = ph_top
-        pw_right = pw_left
+        ph_top = padding[0]
+        ph_bottom = padding[0]
+        pw_left = padding[1]
+        pw_right = padding[1]
 
     padded = np.pad(
         images,
