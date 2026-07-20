@@ -13,7 +13,6 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     if padding == 'same':
         ph = max((h - 1) * sh + kh - h, 0)
         pw = max((w - 1) * sw + kw - w, 0)
-
         ph_top = ph // 2
         ph_bottom = ph - ph_top
         pw_left = pw // 2
