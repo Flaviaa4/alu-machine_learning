@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Poisson distribution module."""
 
+import math
 
 
 class Poisson:
@@ -24,11 +25,16 @@ class Poisson:
         k = int(k)
         if k < 0:
             return 0
-        return (self.lambtha ** k * math.exp(-self.lambtha)) / math.factorial(k)
+
+        return (
+            self.lambtha ** k * math.exp(-self.lambtha)
+            / math.factorial(k)
+        )
 
     def cdf(self, k):
         """Calculate the cumulative distribution function."""
         k = int(k)
         if k < 0:
             return 0
+
         return sum(self.pmf(i) for i in range(k + 1))
