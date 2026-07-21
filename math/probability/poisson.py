@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Poisson distribution module."""
 
+
 class Poisson:
     """Represents a Poisson distribution."""
 
