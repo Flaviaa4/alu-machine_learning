@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Normal distribution module."""
 
-import math
 
 
 class Normal:

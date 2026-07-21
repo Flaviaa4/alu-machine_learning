@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Binomial distribution module."""
 
-import math
 
 
 class Binomial:
