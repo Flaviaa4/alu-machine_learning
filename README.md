@@ -1,6 +1,6 @@
 # alu-machine_learning
 
-This repository contains my solutions for the **Machine Learning** assignment results
+This repository contains my solutions for the **Machine Learning** assignment results, I just Added a few things in this readme file to check if it can work.
 
 ## Repository Structure
 
