@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Defines a function that creates a variational autoencoder"""
 import tensorflow.keras as keras
-import tensorflow.keras.backend as K
 
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
@@ -23,10 +22,10 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     def sampling(args):
         """Reparameterization trick to sample from N(mu, sigma)"""
         mu, log_var = args
-        batch = K.shape(mu)[0]
-        dims = K.shape(mu)[1]
-        epsilon = K.random_normal(shape=(batch, dims))
-        return mu + K.exp(log_var / 2) * epsilon
+        batch = keras.backend.shape(mu)[0]
+        dims = keras.backend.shape(mu)[1]
+        epsilon = keras.backend.random_normal(shape=(batch, dims))
+        return mu + keras.backend.exp(log_var / 2) * epsilon
 
     encoder_inputs = keras.Input(shape=(input_dims,))
     encoded = encoder_inputs
@@ -53,9 +52,10 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         """Computes the VAE loss (reconstruction + KL divergence)"""
         reconstruction_loss = keras.losses.binary_crossentropy(
             inputs, outputs) * input_dims
-        kl_loss = -0.5 * K.sum(
-            1 + log_var - K.square(mu) - K.exp(log_var), axis=-1)
-        return K.mean(reconstruction_loss + kl_loss)
+        kl_loss = -0.5 * keras.backend.sum(
+            1 + log_var - keras.backend.square(mu) -
+            keras.backend.exp(log_var), axis=-1)
+        return keras.backend.mean(reconstruction_loss + kl_loss)
 
     auto.compile(optimizer='adam', loss=vae_loss)
 
