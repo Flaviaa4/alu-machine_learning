@@ -2,10 +2,47 @@
 """Defines a function that builds, trains, and saves a neural network
 model using Adam optimization, mini-batch gradient descent, learning
 rate decay, and batch normalization"""
+import numpy as np
 import tensorflow as tf
 
-shuffle_data = __import__('2-shuffle_data').shuffle_data
-create_batch_norm_layer = __import__('14-batch_norm').create_batch_norm_layer
+
+def shuffle_data(X, Y):
+    """Shuffles the data points in two matrices the same way
+
+    X: first numpy.ndarray of shape (m, nx) to shuffle
+    Y: second numpy.ndarray of shape (m, ny) to shuffle
+
+    Returns: the shuffled X and Y matrices
+    """
+    permutation = np.random.permutation(X.shape[0])
+    return X[permutation], Y[permutation]
+
+
+def create_batch_norm_layer(prev, n, activation):
+    """Creates a batch normalization layer for a neural network
+
+    prev: the activated output of the previous layer
+    n: the number of nodes in the layer to be created
+    activation: the activation function that should be used on the
+        output of the layer
+
+    Returns: a tensor of the activated output for the layer
+    """
+    initializer = tf.contrib.layers.variance_scaling_initializer(
+        mode="FAN_AVG")
+    dense = tf.layers.Dense(units=n, kernel_initializer=initializer)
+    Z = dense(prev)
+
+    mean, variance = tf.nn.moments(Z, axes=[0])
+    gamma = tf.Variable(tf.ones([n]), trainable=True, name='gamma')
+    beta = tf.Variable(tf.zeros([n]), trainable=True, name='beta')
+    Z_norm = tf.nn.batch_normalization(
+        Z, mean, variance, beta, gamma, 1e-8
+    )
+
+    if activation is None:
+        return Z_norm
+    return activation(Z_norm)
 
 
 def create_placeholders(nx, classes):
