@@ -244,7 +244,7 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001,
                             feed_dict={x: X_batch, y: Y_batch})
                         print("\tStep {}:".format(step))
                         print("\t\tCost: {}".format(step_cost))
-                        print("\t\tAccuracy {}".format(step_accuracy))
+                        print("\t\tAccuracy: {}".format(step_accuracy))
 
                 sess.run(tf.assign(global_step, global_step + 1))
 
