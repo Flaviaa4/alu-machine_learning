@@ -32,8 +32,9 @@ def create_layer(prev, n, activation):
     """
     initializer = tf.contrib.layers.variance_scaling_initializer(
         mode="FAN_AVG")
-    layer = tf.layers.Dense(units=n, activation=activation,
-                             kernel_initializer=initializer)
+    layer = tf.layers.Dense(
+        units=n, activation=activation, kernel_initializer=initializer
+    )
     return layer(prev)
 
 
@@ -51,11 +52,13 @@ def forward_prop(x, layers, activations):
     prediction = x
     for i in range(len(layers)):
         if i == len(layers) - 1:
-            prediction = create_layer(prediction, layers[i],
-                                       activations[i])
+            prediction = create_layer(
+                prediction, layers[i], activations[i]
+            )
         else:
-            prediction = create_batch_norm_layer(prediction, layers[i],
-                                                  activations[i])
+            prediction = create_batch_norm_layer(
+                prediction, layers[i], activations[i]
+            )
     return prediction
 
 
@@ -94,8 +97,9 @@ def create_Adam_op(loss, alpha, beta1, beta2, epsilon):
 
     Returns: the Adam optimization operation
     """
-    optimizer = tf.train.AdamOptimizer(alpha, beta1=beta1, beta2=beta2,
-                                        epsilon=epsilon)
+    optimizer = tf.train.AdamOptimizer(
+        alpha, beta1=beta1, beta2=beta2, epsilon=epsilon
+    )
     return optimizer.minimize(loss)
 
 
@@ -112,8 +116,9 @@ def learning_rate_decay(alpha, decay_rate, global_step, decay_step):
 
     Returns: the learning rate decay operation
     """
-    return tf.train.inverse_time_decay(alpha, global_step, decay_step,
-                                        decay_rate, staircase=True)
+    return tf.train.inverse_time_decay(
+        alpha, global_step, decay_step, decay_rate, staircase=True
+    )
 
 
 def model(Data_train, Data_valid, layers, activations, alpha=0.001,

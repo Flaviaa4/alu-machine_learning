@@ -23,8 +23,9 @@ def create_batch_norm_layer(prev, n, activation):
     mean, variance = tf.nn.moments(Z, axes=[0])
     gamma = tf.Variable(tf.ones([n]), trainable=True, name='gamma')
     beta = tf.Variable(tf.zeros([n]), trainable=True, name='beta')
-    Z_norm = tf.nn.batch_normalization(Z, mean, variance, beta, gamma,
-                                        1e-8)
+    Z_norm = tf.nn.batch_normalization(
+        Z, mean, variance, beta, gamma, 1e-8
+    )
 
     if activation is None:
         return Z_norm
